@@ -12,7 +12,7 @@
     "deploy:anvil": "source .env.anvil && pnpm deploy:anvil:multicall3 && pnpm deploy:anvil:entrypoint && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
     "dev:anvil": "concurrently -n anvil,deploy_contracts -c cyan,magenta \"pnpm run anvil --silent\" \"sleep 1 && pnpm run deploy:anvil\"",
     "deploy:devnet:counter": "source .env && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
-    "deploy:devnet:kernel": "source .env && forge script script/DeployKernel.s.sol:DeployKernelFactoryScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
+    "deploy:devnet:kernel": "source .env && forge script script/DeployKernel.s.sol:DeployKernelFactoryScript --rpc-url $JSON_RPC_HTTP_URL --broadcast -vvvv",
     "deploy:devnet": "pnpm deploy:devnet:kernel && pnpm deploy:devnet:counter"
   },
   "dependencies": {
