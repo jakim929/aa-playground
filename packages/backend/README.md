@@ -1,4 +1,4 @@
-# dapp-starter-with-backend/backend
+# aa-playground/backend
 
 ## Backend Service
 

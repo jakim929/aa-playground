@@ -23,7 +23,7 @@ services:
       retries: 3
       start_period: 10s  
     volumes:
-      - dapp-starter-with-backend-postgres-data:/data/postgres
+      - aa-playground-postgres-data:/data/postgres
 
 volumes:
-  dapp-starter-with-backend-postgres-data:
+  aa-playground-postgres-data:
