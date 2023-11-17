@@ -9,12 +9,8 @@ The following is deployed using a [deterministic deployment proxy](https://githu
  `bytes32 ddSalt = '31337'`
 
 ### KernelFactory
-```sh
-0xb0392f89D211f36Bd0A89F269b2146cA82d49060
-```
 
-
-### KernelFactory configuration
+#### configuration
 ```sh
 # OWNER
 #  - derived from 'test test test test test test test test test test test junk'
@@ -24,7 +20,13 @@ The following is deployed using a [deterministic deployment proxy](https://githu
 1 ETH
 ```
 
+#### deployment
+```sh
+0xb0392f89D211f36Bd0A89F269b2146cA82d49060
+```
+
 ### Kernel implementation
+#### deployment
 ```sh
 0x8DfebcdA1Af688C439d9b37D828C0668c8B791f6
 ```
