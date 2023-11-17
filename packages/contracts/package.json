@@ -7,11 +7,11 @@
     "build": "forge build",
     "test": "forge test",
     "anvil": "anvil --block-time 2",
-    "deploy:anvil:multicall3": "cast rpc -r http://127.0.0.1:8545 anvil_setCode 0xcA11bde05977b3631167028862bE2a173976CA11 $(cat constants/multicall3_bytecode.txt)",
-    "deploy:anvil:entrypoint": "cast rpc -r http://127.0.0.1:8545 anvil_setCode 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 $(cat constants/entrypoint_bytecode.txt)",
-    "deploy:anvil": "source .env.anvil && pnpm deploy:anvil:multicall3 && pnpm deploy:anvil:entrypoint && forge create src/Counter.sol:Counter --rpc-url $JSON_RPC_HTTP_URL --private-key $DEPLOYER_PRIVATE_KEY --constructor-args $OWNER_ADDRESS",
+    "deploy:anvil:multicall3": "source .env.anvil && cast rpc -r $JSON_RPC_HTTP_URL anvil_setCode 0xcA11bde05977b3631167028862bE2a173976CA11 $(cat constants/multicall3_bytecode.txt)",
+    "deploy:anvil:entrypoint": "source .env.anvil && cast rpc -r $JSON_RPC_HTTP_URL anvil_setCode 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 $(cat constants/entrypoint_bytecode.txt)",
+    "deploy:anvil": "source .env.anvil && pnpm deploy:anvil:multicall3 && pnpm deploy:anvil:entrypoint && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
     "dev:anvil": "concurrently -n anvil,deploy_contracts -c cyan,magenta \"pnpm run anvil --silent\" \"sleep 1 && pnpm run deploy:anvil\"",
-    "deploy:devnet": "source .env.devnet && forge create src/Counter.sol:Counter --rpc-url $JSON_RPC_HTTP_URL --private-key $DEPLOYER_PRIVATE_KEY --constructor-args $OWNER_ADDRESS"
+    "deploy:devnet": "source .env && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast"
   },
   "dependencies": {
     "solmate": "^6.2.0"

@@ -11,7 +11,7 @@ pnpm i
 
 ### run devnet
 ```sh
-pnpm devnet
+pnpm devnet:up
 ```
 
 this will
