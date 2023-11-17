@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "forge-std/Script.sol";
-import { KernelFactory } from "kernel/src/KernelFactory.sol";
+import { KernelFactory } from "kernel/src/factory/KernelFactory.sol";
 
 contract DeployCounterScript is Script {
     function setUp() public {}
