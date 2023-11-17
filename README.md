@@ -1,4 +1,4 @@
-# DApp Starter with Backend
+# Account Abstraction Playground
 
 ## How to run locally
 
