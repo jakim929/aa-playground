@@ -1,11 +1,13 @@
 [submodule "packages/contracts/lib/kernel"]
 	path = packages/contracts/lib/kernel
 	url = https://github.com/zerodevapp/kernel
+	branch = 90fa72ed4386b3a4acb86c021743c5d56fc4f603
+
 [submodule "lib/openzeppelin-contracts"]
 	path = packages/contracts/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 	branch = v4.8.2
-[submodule "lib/account-abstraction"]
-	path = packages/contracts/lib/account-abstraction
-	url = https://github.com/eth-infinitism/account-abstraction
-	branch = 9c42461f1aaa467f8da6e193e08532a4a0e2caea
+
+[submodule "lib/I4337"]
+	path = packages/contracts/lib/I4337
+	url = https://github.com/leekt/I4337
