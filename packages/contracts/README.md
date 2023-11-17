@@ -17,7 +17,7 @@ The following is deployed using a [deterministic deployment proxy](https://githu
 ### KernelFactory configuration
 ```sh
 # OWNER
-# derived from 'test test test test test test test test test test test junk'
+#  - derived from 'test test test test test test test test test test test junk'
 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 
 # ENTRYPOINT STAKE AMOUNT
