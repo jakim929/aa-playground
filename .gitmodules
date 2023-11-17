@@ -1,0 +1,3 @@
+[submodule "packages/contracts/lib/kernel"]
+	path = packages/contracts/lib/kernel
+	url = https://github.com/zerodevapp/kernel
