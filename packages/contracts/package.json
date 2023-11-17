@@ -11,7 +11,9 @@
     "deploy:anvil:entrypoint": "source .env.anvil && cast rpc -r $JSON_RPC_HTTP_URL anvil_setCode 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 $(cat constants/entrypoint_bytecode.txt)",
     "deploy:anvil": "source .env.anvil && pnpm deploy:anvil:multicall3 && pnpm deploy:anvil:entrypoint && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
     "dev:anvil": "concurrently -n anvil,deploy_contracts -c cyan,magenta \"pnpm run anvil --silent\" \"sleep 1 && pnpm run deploy:anvil\"",
-    "deploy:devnet": "source .env && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast"
+    "deploy:devnet:counter": "source .env && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
+    "deploy:devnet:kernel": "source .env && forge script script/DeployKernel.s.sol:DeployKernelFactoryScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
+    "deploy:devnet": "pnpm deploy:devnet:kernel && pnpm deploy:devnet:counter"
   },
   "dependencies": {
     "solmate": "^6.2.0"
