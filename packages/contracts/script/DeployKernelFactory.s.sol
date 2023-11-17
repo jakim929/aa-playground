@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 import "forge-std/Script.sol";
 import { KernelFactory } from "kernel/src/factory/KernelFactory.sol";
+import { IEntryPoint } from "I4337/interfaces/IEntryPoint.sol";
+
 
 contract DeployCounterScript is Script {
     function setUp() public {}
@@ -13,7 +15,7 @@ contract DeployCounterScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        KernelFactory kernelFactory = new KernelFactory(0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789);
+        KernelFactory kernelFactory = new KernelFactory(ownerAddress, IEntryPoint(0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789));
 
         vm.stopBroadcast();
     }
