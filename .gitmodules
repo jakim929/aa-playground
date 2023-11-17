@@ -8,4 +8,4 @@
 [submodule "lib/account-abstraction"]
 	path = packages/contracts/lib/account-abstraction
 	url = https://github.com/eth-infinitism/account-abstraction
-	branch = 556f03fadcaba0d7d04cd901e6eb9601db50a998
+	branch = 9c42461f1aaa467f8da6e193e08532a4a0e2caea
