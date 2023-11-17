@@ -9,3 +9,6 @@
 	path = packages/contracts/lib/kernel
 	url = https://github.com/zerodevapp/kernel
 	branch = 90fa72ed4386b3a4acb86c021743c5d56fc4f603
+[submodule "packages/contracts/lib/solady"]
+	path = packages/contracts/lib/solady
+	url = https://github.com/vectorized/solady
