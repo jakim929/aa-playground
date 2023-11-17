@@ -15,7 +15,7 @@ pnpm devnet
 ```
 
 this will
-1. start anvil instance
+1. start anvil instance at http://0.0.0.0:8545, `chainId = 31337`
 1. deploy Multicall3 and 4337 Entrypoint contracts
 1. run [etherspot/skandha](https://github.com/etherspot/skandha) 4337 bundler at http://0.0.0.0:14337 against the anvil instance
 
