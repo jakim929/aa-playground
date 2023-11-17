@@ -5,3 +5,6 @@
 [submodule "packages/contracts/lib/I4337"]
 	path = packages/contracts/lib/I4337
 	url = https://github.com/leekt/I4337
+[submodule "packages/contracts/lib/kernel"]
+	path = packages/contracts/lib/kernel
+	url = https://github.com/zerodevapp/kernel
