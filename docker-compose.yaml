@@ -1,0 +1,24 @@
+services:
+  anvil:
+    restart: unless-stopped
+    image: ghcr.io/foundry-rs/foundry
+    environment:
+      - ANVIL_IP_ADDR=0.0.0.0
+    command: ['anvil --block-time 2']
+    ports:
+      - 8545:8545
+    healthcheck:
+      test: cast block-number --rpc-url http://0.0.0.0:8545
+
+  bundler:
+    image: jakim929/aa-playground:skandha-latest
+    ports:
+      - 14337:14337
+    depends_on:
+      anvil:
+        condition: service_healthy
+    volumes:
+      - ./bundler-config.json:/usr/app/config.json
+    command: ["standalone"]
+
+
