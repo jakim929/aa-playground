@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "devnet": "docker-compose up -d",
-    "dev": "concurrently -n contracts,frontend,backend -c blue,green,yellow \"cd packages/contracts && pnpm run dev\" \"cd packages/frontend && pnpm run dev\" \"cd packages/backend && pnpm run dev\"",
+    "devnet:up": "docker-compose up -d",
+    "devnet:down": "docker-compose down",
+    "deploy:contracts": "cd packages/contracts && pnpm deploy:devnet",
+    "dev": "pnpm devnet:down && pnpm devnet:up && pnpm deploy:contracts && concurrently -n frontend,backend -c blue,green \"cd packages/frontend && pnpm run dev\" \"cd packages/backend && pnpm run dev\"",
     "format": "biome format . --write",
     "format:check": "biome format .",
     "lint": "biome check . --apply-unsafe",
