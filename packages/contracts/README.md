@@ -30,3 +30,9 @@ The following is deployed using a [deterministic deployment proxy](https://githu
 ```sh
 0x8DfebcdA1Af688C439d9b37D828C0668c8B791f6
 ```
+
+### TestNFT
+#### deployment
+```sh
+0x2Fe82D95fd0d12c7723a9C419884769817EB83cF
+```

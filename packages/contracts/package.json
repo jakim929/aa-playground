@@ -10,11 +10,12 @@
     "deploy:anvil:multicall3": "source .env.anvil && cast rpc -r $JSON_RPC_HTTP_URL anvil_setCode 0xcA11bde05977b3631167028862bE2a173976CA11 $(cat constants/multicall3_bytecode.txt)",
     "deploy:anvil:entrypoint": "source .env.anvil && cast rpc -r $JSON_RPC_HTTP_URL anvil_setCode 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 $(cat constants/entrypoint_bytecode.txt)",
     "deploy:anvil:ddp": "source .env.anvil && cast rpc -r $JSON_RPC_HTTP_URL anvil_setCode 0x4e59b44847b379578588920ca78fbf26c0b4956c $(cat constants/deterministic_deployment_proxy_bytecode.txt)",
-    "deploy:anvil": "source .env.anvil && pnpm deploy:anvil:multicall3 && pnpm deploy:anvil:entrypoint && pnpm deploy:anvil:ddp && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast && forge script script/DeployKernel.s.sol:DeployKernelFactoryScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
+    "deploy:anvil": "source .env.anvil && pnpm deploy:anvil:multicall3 && pnpm deploy:anvil:entrypoint && pnpm deploy:anvil:ddp && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast && forge script script/DeployKernel.s.sol:DeployKernelFactoryScript --rpc-url $JSON_RPC_HTTP_URL --broadcast -vvvv",
     "dev:anvil": "concurrently -n anvil,deploy_contracts -c cyan,magenta \"pnpm run anvil --silent\" \"sleep 1 && pnpm run deploy:anvil\"",
     "deploy:devnet:counter": "source .env && forge script script/DeployCounter.s.sol:DeployCounterScript --rpc-url $JSON_RPC_HTTP_URL --broadcast",
     "deploy:devnet:kernel": "source .env && forge script script/DeployKernel.s.sol:DeployKernelFactoryScript --rpc-url $JSON_RPC_HTTP_URL --broadcast -vvvv",
-    "deploy:devnet": "pnpm deploy:devnet:kernel && pnpm deploy:devnet:counter"
+    "deploy:devnet:test-nft": "source .env && forge script script/DeployTestNFT.s.sol:DeployTestNFTScript --rpc-url $JSON_RPC_HTTP_URL --broadcast -vvvv",
+    "deploy:devnet": "pnpm deploy:devnet:kernel && pnpm deploy:devnet:counter && pnpm deploy:devnet:test-nft"
   },
   "dependencies": {
     "solmate": "^6.2.0"
