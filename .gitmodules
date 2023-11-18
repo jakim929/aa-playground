@@ -12,3 +12,6 @@
 [submodule "packages/contracts/lib/solady"]
 	path = packages/contracts/lib/solady
 	url = https://github.com/vectorized/solady
+[submodule "packages/contracts/lib/light-account"]
+	path = packages/contracts/lib/light-account
+	url = https://github.com/alchemyplatform/light-account
