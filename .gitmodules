@@ -1,7 +1,7 @@
 [submodule "lib/openzeppelin-contracts"]
   path = packages/contracts/lib/openzeppelin-contracts
   url = https://github.com/OpenZeppelin/openzeppelin-contracts
-  branch = v4.8.2
+  branch = v4.9.3
 [submodule "packages/contracts/lib/I4337"]
 	path = packages/contracts/lib/I4337
 	url = https://github.com/leekt/I4337

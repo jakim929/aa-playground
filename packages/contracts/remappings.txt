@@ -8,3 +8,4 @@ openzeppelin-contracts/=lib/openzeppelin-contracts/
 solady/=lib/solady/src
 I4337/=lib/I4337/src/
 light-account/=lib/light-account/src/
+account-abstraction/=lib/account-abstraction/contracts/

@@ -5,8 +5,7 @@ import "forge-std/Script.sol";
 import "forge-std/console.sol";
 import { LightAccountFactory } from "light-account/LightAccountFactory.sol";
 import { LightAccount } from "light-account/LightAccount.sol";
-
-
+import { IEntryPoint } from "account-abstraction/interfaces/IEntryPoint.sol";
 
 contract DeployLightAccountScript is Script {
     function setUp() public {
@@ -28,7 +27,7 @@ contract DeployLightAccountScript is Script {
 
         // Deploy LightAccount implementation
         LightAccount lightAccount = new LightAccount{ salt: ddSalt }(entryPoint);
-        console.log("LightAccount impl deployed to: %s", address(kernel));
+        console.log("LightAccount impl deployed to: %s", address(lightAccount));
 
         // Deploy smart account for accountOwnerAddress
         address smartAccountAddress = lightAccountFactory.createAccount(accountOwnerAddress, 0);
