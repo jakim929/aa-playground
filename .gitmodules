@@ -15,3 +15,6 @@
 [submodule "packages/contracts/lib/light-account"]
 	path = packages/contracts/lib/light-account
 	url = https://github.com/alchemyplatform/light-account
+[submodule "packages/contracts/lib/account-abstraction"]
+	path = packages/contracts/lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
