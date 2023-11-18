@@ -24,13 +24,15 @@ contract DeployLightAccountScript is Script {
         LightAccountFactory lightAccountFactory = new LightAccountFactory{ salt: ddSalt }(entryPoint);
         console.log("LightAccountFactory deployed to: %s", address(lightAccountFactory));
 
-        // Deploy LightAccount implementation
-        LightAccount lightAccount = new LightAccount{ salt: ddSalt }(entryPoint);
-        console.log("LightAccount impl deployed to: %s", address(lightAccount));
+        // // Deploy LightAccount implementation
+        // LightAccount lightAccount = new LightAccount{ salt: ddSalt }(entryPoint);
+        // console.log("LightAccount impl deployed to: %s", address(lightAccount));
 
-        // Deploy smart account for accountOwnerAddress
-        LightAccount smartAccountAddress = lightAccountFactory.createAccount(accountOwnerAddress, 0);
-        console.log("LightAccount address for %s: %s", address(accountOwnerAddress), address(smartAccountAddress));
+        // // Deploy smart account for accountOwnerAddress
+        // LightAccount smartAccountAddress = lightAccountFactory.createAccount(accountOwnerAddress, 0);
+        // console.log("LightAccount address for %s: %s", address(accountOwnerAddress), address(smartAccountAddress));
+
+        // entryPoint.getSenderAddress(initCode);
 
         vm.stopBroadcast();
     }
