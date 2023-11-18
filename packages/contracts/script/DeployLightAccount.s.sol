@@ -14,7 +14,6 @@ contract DeployLightAccountScript is Script {
 
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-        address ownerAddress = vm.envAddress("OWNER_ADDRESS");
         address accountOwnerAddress = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
         IEntryPoint entryPoint = IEntryPoint(0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789);
         bytes32 ddSalt = "31337";
@@ -30,8 +29,8 @@ contract DeployLightAccountScript is Script {
         console.log("LightAccount impl deployed to: %s", address(lightAccount));
 
         // Deploy smart account for accountOwnerAddress
-        address smartAccountAddress = lightAccountFactory.createAccount(accountOwnerAddress, 0);
-        console.log("LightAccount address for %s: %s", accountOwnerAddress, address(smartAccountAddress));
+        LightAccount smartAccountAddress = lightAccountFactory.createAccount(accountOwnerAddress, 0);
+        console.log("LightAccount address for %s: %s", address(accountOwnerAddress), address(smartAccountAddress));
 
         vm.stopBroadcast();
     }

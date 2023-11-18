@@ -10,7 +10,6 @@ contract DeployTestNFTScript is Script {
 
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-        address ownerAddress = vm.envAddress("OWNER_ADDRESS");
          bytes32 ddSalt = "31337";
 
         vm.startBroadcast(deployerPrivateKey);
