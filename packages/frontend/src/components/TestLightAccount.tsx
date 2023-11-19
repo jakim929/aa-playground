@@ -138,8 +138,11 @@ const smartAccountProvider = new SmartAccountProvider({
       import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!
     );
 
-    struct.callGasLimit = BigInt(Math.floor(Number(BigInt(estimates.callGasLimit)) * 1.5))
-    struct.verificationGasLimit = BigInt(Math.floor(Number(BigInt(estimates.verificationGasLimit)) * 1.5))
+    // struct.callGasLimit = BigInt(Math.floor(Number(BigInt(estimates.callGasLimit)) * 1.5))
+    // struct.verificationGasLimit = BigInt(Math.floor(Number(BigInt(estimates.verificationGasLimit)) * 1.5))
+
+    struct.callGasLimit = estimates.callGasLimit
+    struct.verificationGasLimit = estimates.verificationGasLimit
     struct.preVerificationGas = BigInt(Math.floor(Number(BigInt(estimates.preVerificationGas)) * 1.5))
 
     return struct;

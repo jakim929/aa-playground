@@ -147,3 +147,8 @@ https://github.com/alchemyplatform/rundler/issues/470
     - skandha supports unsafeMode
     - https://github.com/eth-infinitism/bundler supports --unsafe
     - rundler has one planned https://github.com/alchemyplatform/rundler/issues/470
+
+
+## transeptor seems to require slightly higher preverification gas? 
+
+required bumping preVerificationGas for transaction to go through
