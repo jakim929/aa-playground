@@ -56,6 +56,23 @@ services:
       anvil:
         condition: service_healthy
 
+  transeptor-bundler: 
+    image: transeptorlabs/bundler:latest
+    ports:
+      - "4000:4000"
+    environment:
+      - MNEMONIC=test test test test test test test test test test test junk
+      - BENEFICIARY=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+    command: >
+      --port 4000
+      --network http://host.docker.internal:8545
+      --txMode base
+      --httpApi web3,eth,debug
+      --auto
+      --autoBundleInterval 12000
+      --unsafe
+
+
   rundler-cors-proxy:
     build: 
       context: .

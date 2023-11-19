@@ -6,6 +6,8 @@ import {
   SmartAccountProvider,
   createPublicErc4337Client,
   createPublicErc4337FromClient,
+  deepHexlify,
+  resolveProperties,
 } from '@alchemy/aa-core'
 import { useEffect, useState } from 'react'
 import {
@@ -71,6 +73,28 @@ const publicAndErc4337Transport = custom({
         })
       return result
     }
+
+    // testing make it work with transeptor bundler
+    if (method === 'eth_estimateUserOperationGas') {
+      const result = await erc4337PublicClient
+        .request({ method, params: [
+          {
+            ...params[0],
+            callGasLimit: '0x500000'
+          },
+          params[1]
+        ] })
+        .catch((e) => {
+          throw new RpcRequestError({
+            body,
+            error: e as any,
+            url: erc4337PublicClient.transport.url!,
+          })
+        })
+      return result
+    }
+    console.log(method, params)
+
     const result = await erc4337PublicClient
       .request({ method, params })
       .catch((e) => {
@@ -95,6 +119,7 @@ const smartAccountProvider = new SmartAccountProvider({
   rpcProvider: publicAndErc4337Client,
   chain: foundry,
   entryPointAddress: import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!,
+
 }).connect(
   (rpcClient) =>
     new LightSmartContractAccount({
@@ -105,7 +130,22 @@ const smartAccountProvider = new SmartAccountProvider({
       entryPointAddress: import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!,
       rpcClient: rpcClient as any,
     }),
-)
+    // Bump up gas to make it work with transeptor bundler
+).withGasEstimator(async struct => {
+    const request = deepHexlify(await resolveProperties(struct));
+    const estimates = await publicAndErc4337Client.estimateUserOperationGas(
+      request,
+      import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!
+    );
+
+    struct.callGasLimit = BigInt(Math.floor(Number(BigInt(estimates.callGasLimit)) * 1.5))
+    struct.verificationGasLimit = BigInt(Math.floor(Number(BigInt(estimates.verificationGasLimit)) * 1.5))
+    struct.preVerificationGas = BigInt(Math.floor(Number(BigInt(estimates.preVerificationGas)) * 1.5))
+
+    return struct;
+  
+  
+})
 
 const lightSmartContractAccount = new LightSmartContractAccount({
   owner: signer,
@@ -161,7 +201,8 @@ const MintNFTButton = ({
         onClick={() => {
           const functionData = encodeFunctionData({
             abi: TestNFTAbi,
-            functionName: 'mint',
+            functionName: 'mintTo',
+            args: [smartAccountAddress!],
           })
           smartAccountProvider.sendUserOperation({
             target: import.meta.env.VITE_TEST_NFT_CONTRACT_ADDRESS!,
