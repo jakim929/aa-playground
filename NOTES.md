@@ -1,5 +1,7 @@
 # notes: some gotchas along the way
 
+goal is to get bundlers / paymasters working on a local devnet on anvil.
+
 
 ## SenderCreator deployment
 `SenderCreator` is initialized when constructing `EntryPoint`, so just doing `vm.etch` with the `EntryPoint` bytecode is insufficient. Need to etch bytecode into the expected location of `SenderCreator`
@@ -113,3 +115,35 @@
     "id": 45
 }
 ```
+
+## aa-sdk adds weird headers to fetch requests
+```
+'Alchemy-Aa-Sdk-Signer', 'Alchemy-Aa-Sdk-Factory-Address', 'Alchemy-Aa-Sdk-Version'
+```
+
+## rundler doesn't support anvil because tracing doesn't work? 
+
+Think it requires geth - it can't simulate UO so it sendUserOperation fails.
+
+https://github.com/alchemyplatform/rundler/issues/470
+
+```
+{
+    "jsonrpc": "2.0",
+    "error": {
+        "code": -32603,
+        "message": "(code: -32602, message: non-default tracer not supported yet, data: None)"
+    },
+    "id": 11
+}
+```
+
+
+## debug_traceCall issue
+
+- most bundlers require debug_traceCall options to run simulation
+- either https://github.com/foundry-rs/foundry/issues/5855 lands
+- or run bundler in unsafeMode (without simulation)
+    - skandha supports unsafeMode
+    - https://github.com/eth-infinitism/bundler supports --unsafe
+    - rundler has one planned https://github.com/alchemyplatform/rundler/issues/470

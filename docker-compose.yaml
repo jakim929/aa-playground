@@ -60,9 +60,22 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+      target: rundler-proxy
     container_name: rundler-cors-proxy
     ports:
       - "3003:80"
     depends_on:
       rundler-bundler:
+        condition: service_healthy
+
+  anvil-cors-proxy:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: anvil-proxy
+    container_name: anvil-cors-proxy
+    ports:
+      - "8546:81"
+    depends_on:
+      anvil:
         condition: service_healthy

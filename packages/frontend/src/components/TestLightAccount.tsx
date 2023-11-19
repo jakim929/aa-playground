@@ -1,11 +1,19 @@
 import { Button } from '@/components/ui/button'
 import { TestNFTAbi } from '@/constants/TestNFTAbi'
 import { LightSmartContractAccount } from '@alchemy/aa-accounts'
-import { LocalAccountSigner, SmartAccountProvider } from '@alchemy/aa-core'
+import {
+  LocalAccountSigner,
+  SmartAccountProvider,
+  createPublicErc4337Client,
+  createPublicErc4337FromClient,
+} from '@alchemy/aa-core'
 import { useEffect, useState } from 'react'
 import {
   Address,
+  RpcRequestError,
+  createPublicClient,
   createWalletClient,
+  custom,
   encodeFunctionData,
   formatEther,
   http,
@@ -13,12 +21,7 @@ import {
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { foundry } from 'viem/chains'
-import {
-  useBalance,
-  useContractRead,
-  usePrepareSendTransaction,
-  useSendTransaction,
-} from 'wagmi'
+import { useBalance, useContractRead } from 'wagmi'
 
 const privateKeyAccount = privateKeyToAccount(
   '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d',
@@ -32,17 +35,64 @@ const walletClient = createWalletClient({
 
 const signer = new LocalAccountSigner(privateKeyAccount)
 
-const lightSmartContractAccount = new LightSmartContractAccount({
-  owner: signer,
+// Can only handle 4337 rpc calls
+const erc4337PublicClient = createPublicErc4337Client({
   chain: foundry,
-  factoryAddress: import.meta.env.VITE_LIGHT_ACCOUNT_FACTORY_CONTRACT_ADDRESS!,
-  rpcClient: import.meta.env.VITE_BUNDLER_URL!,
-  // rpcClient: publicClient as any,
-  entryPointAddress: import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!,
+  rpcUrl: import.meta.env.VITE_BUNDLER_URL!,
 })
 
+// Can only handle regular rpc calls
+const publicClient = createPublicClient({
+  chain: foundry,
+  transport: http(import.meta.env.VITE_JSON_RPC_HTTP_URL!),
+})
+
+const erc4337Methods = [
+  'eth_estimateUserOperationGas',
+  'eth_sendUserOperation',
+  'eth_getUserOperationByHash',
+  'eth_getUserOperationReceipt',
+  'eth_supportedEntryPoints',
+] as const
+
+// falls back to bundler if 4337 rpc call, otherwise uses regular rpc call
+const publicAndErc4337Transport = custom({
+  async request(body) {
+    const { method, params } = body
+    if (!erc4337Methods.includes(method)) {
+      const result = await publicClient
+        .request({ method, params })
+        .catch((e) => {
+          throw new RpcRequestError({
+            body,
+            error: e as any,
+            url: publicClient.transport.url!,
+          })
+        })
+      return result
+    }
+    const result = await erc4337PublicClient
+      .request({ method, params })
+      .catch((e) => {
+        throw new RpcRequestError({
+          body,
+          error: e as any,
+          url: erc4337PublicClient.transport.url!,
+        })
+      })
+    return result
+  },
+})
+
+const publicAndErc4337Client = createPublicErc4337FromClient(
+  createPublicClient({
+    chain: foundry,
+    transport: publicAndErc4337Transport,
+  }),
+)
+
 const smartAccountProvider = new SmartAccountProvider({
-  rpcProvider: import.meta.env.VITE_BUNDLER_URL!,
+  rpcProvider: publicAndErc4337Client,
   chain: foundry,
   entryPointAddress: import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!,
 }).connect(
@@ -53,9 +103,18 @@ const smartAccountProvider = new SmartAccountProvider({
       factoryAddress: import.meta.env
         .VITE_LIGHT_ACCOUNT_FACTORY_CONTRACT_ADDRESS!,
       entryPointAddress: import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!,
-      rpcClient,
+      rpcClient: rpcClient as any,
     }),
 )
+
+const lightSmartContractAccount = new LightSmartContractAccount({
+  owner: signer,
+  chain: foundry,
+  factoryAddress: import.meta.env.VITE_LIGHT_ACCOUNT_FACTORY_CONTRACT_ADDRESS!,
+  rpcClient: publicAndErc4337Client,
+  // rpcClient: publicClient as any,
+  entryPointAddress: import.meta.env.VITE_ENTRY_POINT_CONTRACT_ADDRESS!,
+})
 
 const FundSmartAccountButton = ({
   smartAccountAddress,
@@ -130,7 +189,6 @@ const useSmartAccountAddress = () => {
 }
 
 export const TestLightAccount = () => {
-  // console.log(lightSmartContractAccount.getAccountInitCode().then(console.log))
   const smartAccountAddress = useSmartAccountAddress()
   const { data: smartAccountBalance, isLoading } = useBalance({
     address: smartAccountAddress,
@@ -141,7 +199,7 @@ export const TestLightAccount = () => {
     <div className="flex flex-col gap-4">
       <div>Smart account address: {smartAccountAddress}</div>
       <div>
-        Smart account balance:{' '}
+        Smart account balance :{' '}
         {isLoading || smartAccountBalance === undefined
           ? 'isLoading'
           : formatEther(smartAccountBalance.value)}
