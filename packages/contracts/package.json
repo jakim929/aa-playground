@@ -19,8 +19,6 @@
     "deploy:devnet": "pnpm deploy:devnet:kernel && pnpm deploy:devnet:light-account && pnpm deploy:devnet:test-nft"
   },
   "devDependencies": {
-    "concurrently": "^8.2.1",
-    "ds-test": "https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0",
-    "forge-std": "https://github.com/foundry-rs/forge-std.git#74cfb77e308dd188d2f58864aaf44963ae6b88b1"
+    "concurrently": "^8.2.1"
   }
 }
