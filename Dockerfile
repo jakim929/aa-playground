@@ -1,17 +1,24 @@
-FROM nginx:alpine as base
+FROM nginx:alpine as proxy-base
 
 WORKDIR /etc/nginx
 
-FROM base as rundler-proxy
-WORKDIR /etc/nginx
-COPY ./nginx.rundler-proxy.conf ./conf.d/default.conf
-EXPOSE 80
-ENTRYPOINT [ "nginx" ]
-CMD [ "-g", "daemon off;" ]
-
-FROM base as anvil-proxy
+FROM proxy-base as anvil-cors-proxy
 WORKDIR /etc/nginx
 COPY ./nginx.anvil-proxy.conf ./conf.d/default.conf
 EXPOSE 81
 ENTRYPOINT [ "nginx" ]
 CMD [ "-g", "daemon off;" ]
+
+FROM proxy-base as bundler-reverse-proxy
+WORKDIR /etc/nginx
+COPY ./nginx.reverse-proxy.conf ./conf.d/default.conf
+EXPOSE 81
+ENTRYPOINT [ "nginx" ]
+CMD [ "-g", "daemon off;" ]
+
+FROM ghcr.io/foundry-rs/foundry as anvil-setup
+RUN apk add --no-cache bash
+WORKDIR /app
+COPY ./packages/contracts ./
+
+ENTRYPOINT ["/bin/bash", "deploy_predeploys_and_contracts.sh"]

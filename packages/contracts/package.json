@@ -18,9 +18,6 @@
     "deploy:devnet:test-nft": "source .env && forge script script/DeployTestNFT.s.sol:DeployTestNFTScript --rpc-url $JSON_RPC_HTTP_URL --broadcast -vvvv",
     "deploy:devnet": "pnpm deploy:devnet:kernel && pnpm deploy:devnet:light-account && pnpm deploy:devnet:test-nft"
   },
-  "dependencies": {
-    "solmate": "^6.2.0"
-  },
   "devDependencies": {
     "concurrently": "^8.2.1",
     "ds-test": "https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0",

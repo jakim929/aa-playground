@@ -4,7 +4,7 @@
       "entryPoints": ["0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"],
       "relayer": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
       "beneficiary": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-      "rpcEndpoint": "http://host.docker.internal:8545",
+      "rpcEndpoint": "http://anvil:8545",
       "minInclusionDenominator": 10,
       "throttlingSlack": 10,
       "banSlack": 10

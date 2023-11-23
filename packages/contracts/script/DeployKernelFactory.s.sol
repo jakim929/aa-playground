@@ -14,21 +14,18 @@ contract DeployKernelFactoryScript is Script {
 
     }
 
-    function run() public {
-        uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-        address ownerAddress = vm.envAddress("OWNER_ADDRESS");
-        address accountOwnerAddress = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
-        IEntryPoint entryPoint = IEntryPoint(0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789);
-        bytes32 ddSalt = "31337";
+    function run(uint256 deployerAndOwnerPrivateKey, address entryPoint) public {
+        IEntryPoint entryPoint = IEntryPoint(entryPoint);
+        bytes32 ddSalt = "";
 
-        vm.startBroadcast(deployerPrivateKey);
+        vm.startBroadcast(deployerAndOwnerPrivateKey);
         
         // Deploy ECDSAValidator to use as default validator
         ECDSAValidator ecdsaValidator = new ECDSAValidator{ salt: ddSalt }();
         console.log("ECDSAValidator deployed to: %s", address(ecdsaValidator));
 
         // Deploy kernel implementation
-        KernelFactory kernelFactory = new KernelFactory{ salt: ddSalt }(ownerAddress, entryPoint);
+        KernelFactory kernelFactory = new KernelFactory{ salt: ddSalt }(vm.addr(deployerAndOwnerPrivateKey), entryPoint);
         console.log("KernelFactory deployed to: %s", address(kernelFactory));
 
         // Deploy kernel implementation
@@ -39,10 +36,11 @@ contract DeployKernelFactoryScript is Script {
         kernelFactory.setImplementation(address(kernel), true);
         kernelFactory.addStake{ value: 1 ether }(1000);
 
-        // Deploy smart account for accountOwnerAddress
-        bytes memory encodedAccountOwnerAddress = abi.encode(accountOwnerAddress);
-        address smartAccountAddress = kernelFactory.createAccount(address(kernel), abi.encodeWithSignature("initialize(address,bytes)", ecdsaValidator, encodedAccountOwnerAddress), 0);
-        console.log("Account address for %s: %s", accountOwnerAddress, address(smartAccountAddress));
+        // // Deploy smart account for accountOwnerAddress
+        // address accountOwnerAddress = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
+        // bytes memory encodedAccountOwnerAddress = abi.encode(accountOwnerAddress);
+        // address smartAccountAddress = kernelFactory.createAccount(address(kernel), abi.encodeWithSignature("initialize(address,bytes)", ecdsaValidator, encodedAccountOwnerAddress), 0);
+        // console.log("Account address for %s: %s", accountOwnerAddress, address(smartAccountAddress));
 
         vm.stopBroadcast();
     }

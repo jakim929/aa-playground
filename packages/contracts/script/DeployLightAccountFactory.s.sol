@@ -7,16 +7,14 @@ import { LightAccountFactory } from "light-account/LightAccountFactory.sol";
 import { LightAccount } from "light-account/LightAccount.sol";
 import { IEntryPoint } from "account-abstraction/interfaces/IEntryPoint.sol";
 
-contract DeployLightAccountScript is Script {
+contract DeployLightAccountFactoryScript is Script {
     function setUp() public {
 
     }
 
-    function run() public {
-        uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-        address accountOwnerAddress = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
-        IEntryPoint entryPoint = IEntryPoint(0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789);
-        bytes32 ddSalt = "31337";
+    function run(uint256 deployerPrivateKey, address entryPoint) public {
+        IEntryPoint entryPoint = IEntryPoint(entryPoint);
+        bytes32 ddSalt = "";
 
         vm.startBroadcast(deployerPrivateKey);
         
@@ -29,6 +27,7 @@ contract DeployLightAccountScript is Script {
         // console.log("LightAccount impl deployed to: %s", address(lightAccount));
 
         // // Deploy smart account for accountOwnerAddress
+        // address accountOwnerAddress = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
         // LightAccount smartAccountAddress = lightAccountFactory.createAccount(accountOwnerAddress, 0);
         // console.log("LightAccount address for %s: %s", address(accountOwnerAddress), address(smartAccountAddress));
 

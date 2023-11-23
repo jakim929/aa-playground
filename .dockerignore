@@ -4,3 +4,7 @@ node_modules
 *.md
 dist
 dev-dist
+broadcast
+cache
+out
+.env
