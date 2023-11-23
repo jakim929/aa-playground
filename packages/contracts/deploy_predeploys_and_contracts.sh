@@ -43,5 +43,4 @@ done
 
 cd ..
 
-forge script --rpc-url $RPC_URL --broadcast -vvvv ./script/DeployKernelFactory.s.sol:DeployKernelFactoryScript --sig "run(uint256 deployerAndOwnerPrivateKey, address entryPoint)" $DEPLOYER_EOA_PRIVATE_KEY $ENTRYPOINT_CONTRACT_ADDRESS
-forge script --rpc-url $RPC_URL --broadcast -vvvv ./script/DeployLightAccountFactory.s.sol:DeployLightAccountFactoryScript --sig "run(uint256 deployerPrivateKey, address entryPoint)" $DEPLOYER_EOA_PRIVATE_KEY $ENTRYPOINT_CONTRACT_ADDRESS
+forge script --rpc-url $RPC_URL --broadcast -vvvv ./script/DeploySmartAccountFactories.s.sol:DeploySmartAccountFactoriesScript --sig "run(uint256 deployerAndOwnerPrivateKey, address entryPoint)" $DEPLOYER_EOA_PRIVATE_KEY $ENTRYPOINT_CONTRACT_ADDRESS

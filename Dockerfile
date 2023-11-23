@@ -20,5 +20,6 @@ FROM ghcr.io/foundry-rs/foundry as anvil-setup
 RUN apk add --no-cache bash
 WORKDIR /app
 COPY ./packages/contracts ./
+RUN forge build
 
 ENTRYPOINT ["/bin/bash", "deploy_predeploys_and_contracts.sh"]

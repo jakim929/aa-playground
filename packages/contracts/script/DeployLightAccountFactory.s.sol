@@ -12,11 +12,11 @@ contract DeployLightAccountFactoryScript is Script {
 
     }
 
-    function run(uint256 deployerPrivateKey, address entryPoint) public {
-        IEntryPoint entryPoint = IEntryPoint(entryPoint);
+    function run(uint256 _deployerPrivateKey, address _entryPoint) public {
+        IEntryPoint entryPoint = IEntryPoint(_entryPoint);
         bytes32 ddSalt = "";
 
-        vm.startBroadcast(deployerPrivateKey);
+        vm.startBroadcast(_deployerPrivateKey);
         
         // Deploy LightAccountFactory
         LightAccountFactory lightAccountFactory = new LightAccountFactory{ salt: ddSalt }(entryPoint);

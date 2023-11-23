@@ -52,16 +52,27 @@ services:
     depends_on:
       anvil:
         condition: service_healthy
+      rundler-bundler:
+        condition: service_healthy
+      skandha-bundler:
+        condition: service_healthy
+      transeptor-bundler:
+        condition: service_healthy
 
   skandha-bundler:
     image: jakim929/aa-playground:skandha-latest
     container_name: skandha-bundler
+    entrypoint: ["sh", "-c", "echo '{\"networks\":{\"dev\":{\"entryPoints\":[\"$ENTRYPOINT_CONTRACT_ADDRESS\"],\"relayer\":\"$BUNDLER_EOA_PRIVATE_KEY\",\"beneficiary\":\"$BUNDLER_EOA_ADDRESS\",\"rpcEndpoint\":\"http://anvil:8545\",\"minInclusionDenominator\":10,\"throttlingSlack\":10,\"banSlack\":10}}}' > /usr/app/config.json && node ./packages/cli/bin/skandha standalone"]
+    healthcheck:
+      test: >
+        wget --header='Content-Type: application/json'  --no-verbose --tries=1 --output-document=- --spider --post-data='{"jsonrpc":"2.0","id":"1","method":"test","params":[]}' http://localhost:14337/$CHAIN_ID || exit 1
+      interval: 3s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
     depends_on:
-      anvil:
-        condition: service_healthy
-    volumes:
-      - ./bundler-config.json:/usr/app/config.json
-    command: ["standalone", "--unsafeMode"]
+      anvil-setup:
+        condition: service_completed_successfully
 
   rundler-bundler:
     image: jakim929/aa-playground:rundler-latest
@@ -73,13 +84,13 @@ services:
       - BUILDER_PRIVATE_KEY=$BUNDLER_EOA_PRIVATE_KEY
     healthcheck:
       test: curl --fail http://localhost:3000/health || exit 1
-      interval: 1s
-      timeout: 1s
-      retries: 60
+      interval: 3s
+      timeout: 3s
+      retries: 3
       start_period: 10s
     depends_on:
-      anvil:
-        condition: service_healthy
+      anvil-setup:
+        condition: service_completed_successfully
 
   transeptor-bundler: 
     image: transeptorlabs/bundler:latest
@@ -95,6 +106,15 @@ services:
       --auto
       --autoBundleInterval 12000
       --unsafe
+    healthcheck:
+      test: >
+        wget --header='Content-Type: application/json'  --no-verbose --tries=1 --output-document=- --spider --post-data='{"jsonrpc":"2.0","id":"1","method":"test","params":[]}' http://localhost:4000/rpc || exit 1
+      interval: 3s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
     depends_on:
-      anvil:
-        condition: service_healthy
+      anvil-setup:
+        condition: service_completed_successfully
+
+        

@@ -6,16 +6,17 @@ import "forge-std/console.sol";
 import { KernelFactory } from "kernel/src/factory/KernelFactory.sol";
 import { ECDSAValidator } from "kernel/src/validator/ECDSAValidator.sol";
 import { Kernel } from "kernel/src/Kernel.sol";
+import { LightAccountFactory } from "light-account/LightAccountFactory.sol";
 import { IEntryPoint } from "I4337/interfaces/IEntryPoint.sol";
+import { IEntryPoint as IEntryPointForLightAccount } from "account-abstraction/interfaces/IEntryPoint.sol";
 
 
-contract DeployKernelFactoryScript is Script {
+contract DeploySmartAccountFactoriesScript is Script {
     function setUp() public {
 
     }
 
     function run(uint256 _deployerAndOwnerPrivateKey, address _entryPoint) public {
-        IEntryPoint entryPoint = IEntryPoint(_entryPoint);
         bytes32 ddSalt = "";
 
         vm.startBroadcast(_deployerAndOwnerPrivateKey);
@@ -25,22 +26,21 @@ contract DeployKernelFactoryScript is Script {
         console.log("ECDSAValidator deployed to: %s", address(ecdsaValidator));
 
         // Deploy kernel implementation
-        KernelFactory kernelFactory = new KernelFactory{ salt: ddSalt }(vm.addr(_deployerAndOwnerPrivateKey), entryPoint);
+        KernelFactory kernelFactory = new KernelFactory{ salt: ddSalt }(vm.addr(_deployerAndOwnerPrivateKey), IEntryPoint(_entryPoint));
         console.log("KernelFactory deployed to: %s", address(kernelFactory));
 
         // Deploy kernel implementation
-        Kernel kernel = new Kernel{ salt: ddSalt }(entryPoint);
+        Kernel kernel = new Kernel{ salt: ddSalt }(IEntryPoint(_entryPoint));
         console.log("Kernel impl deployed to: %s", address(kernel));
 
         // Set config for kernel factory
         kernelFactory.setImplementation(address(kernel), true);
         kernelFactory.addStake{ value: 1 ether }(1000);
 
-        // // Deploy smart account for accountOwnerAddress
-        // address accountOwnerAddress = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
-        // bytes memory encodedAccountOwnerAddress = abi.encode(accountOwnerAddress);
-        // address smartAccountAddress = kernelFactory.createAccount(address(kernel), abi.encodeWithSignature("initialize(address,bytes)", ecdsaValidator, encodedAccountOwnerAddress), 0);
-        // console.log("Account address for %s: %s", accountOwnerAddress, address(smartAccountAddress));
+
+        // Deploy LightAccountFactory
+        LightAccountFactory lightAccountFactory = new LightAccountFactory{ salt: ddSalt }(IEntryPointForLightAccount(_entryPoint));
+        console.log("LightAccountFactory deployed to: %s", address(lightAccountFactory));
 
         vm.stopBroadcast();
     }
