@@ -56,6 +56,10 @@ this will
 `0xAad3de1B3BB85F10658972372058F772A70DFefC`
 
 ### [Kernel](https://github.com/zerodevapp/kernel)
+
+Made by [zerodev](https://zerodev.app/), Kernel is one of the [most used smart account implementations](https://twitter.com/SixdegreeLab/status/1705585256638849325?s=20)
+
+
 #### [KernelAccountFactory](https://github.com/zerodevapp/kernel/blob/main/src/factory/KernelFactory.sol)
 `0xFef4e11B0121eb9998bb36A7Bbe4ea2AC793A872`
 
