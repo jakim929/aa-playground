@@ -52,12 +52,15 @@ this will
 ## smart account contracts
 
 ### [LightAccount](https://github.com/alchemyplatform/light-account)
+
+Made by [Alchemy](https://www.alchemy.com/), LightAccount is a lightweight implementation of a smart account
+
 #### [LightAccountFactory](https://github.com/alchemyplatform/light-account/blob/main/src/LightAccountFactory.sol)
 `0xAad3de1B3BB85F10658972372058F772A70DFefC`
 
 ### [Kernel](https://github.com/zerodevapp/kernel)
 
-Made by [zerodev](https://zerodev.app/), Kernel is one of the [most used smart account implementations](https://twitter.com/SixdegreeLab/status/1705585256638849325?s=20)
+Made by [zerodev](https://zerodev.app/), Kernel is a modular smart account, and one of the [most used smart account implementations](https://twitter.com/SixdegreeLab/status/1705585256638849325?s=20)
 
 
 #### [KernelAccountFactory](https://github.com/zerodevapp/kernel/blob/main/src/factory/KernelFactory.sol)
