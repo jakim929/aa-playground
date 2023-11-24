@@ -14,18 +14,6 @@ services:
       interval: 3s
       timeout: 2s
 
-  # anvil-cors-proxy:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #     target: anvil-cors-proxy
-  #   container_name: anvil-cors-proxy
-  #   ports:
-  #     - "8545:81"
-  #   depends_on:
-  #     anvil:
-  #       condition: service_healthy
-
   anvil-setup: 
     build: 
       context: .
