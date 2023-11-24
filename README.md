@@ -29,7 +29,7 @@ This will:
 | Transeptor Bundler RPC | - | `http://0.0.0.0:3010/transeptor-bundler-rpc` |
 | Rundler Bundler RPC | - | `http://0.0.0.0:3010/rundler-bundler-rpc` |
 
-## 📝 Basic Contracts 
+## 📝 Basic Contract Deployments
 | Contract | Address |
 |----------|---------|
 | [EntryPoint Contract (v0.6.0)](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/core/EntryPoint.sol) | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
@@ -37,7 +37,7 @@ This will:
 | [Multicall3](https://github.com/mds1/multicall) | `0xcA11bde05977b3631167028862bE2a173976CA11` |
 
 
-## 💼 Smart Account Contracts 
+## 💼 Smart Account Contract Deployments
 ### LightAccount
 Made by [Alchemy](https://www.alchemy.com/), LightAccount is a lightweight implementation of a smart account. Not as many features, but is easy to understand, lightweight, and gas efficient.
 
