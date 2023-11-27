@@ -26,3 +26,6 @@
 [submodule "bundlers/transeptor-bundler"]
 	path = bundlers/transeptor-bundler
 	url = https://github.com/transeptorlabs/transeptor-bundler
+[submodule "bundlers/skandha"]
+	path = bundlers/skandha
+	url = https://github.com/etherspot/skandha
