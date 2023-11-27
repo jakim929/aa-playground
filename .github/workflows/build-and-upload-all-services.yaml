@@ -8,12 +8,12 @@ on:
 
 jobs:
   build-and-upload-skandha:
-    uses: ./.github/workflows/build-and-upload-bundler-service.yml
+    uses: ./.github/workflows/build-and-upload-bundler-service.yaml
     secrets: inherit
     with:
       bundler-name: skandha
   build-and-upload-transeptor-bundler:
-    uses: ./.github/workflows/build-and-upload-bundler-service.yml
+    uses: ./.github/workflows/build-and-upload-bundler-service.yaml
     secrets: inherit
     with:
       bundler-name: transeptor-bundler
