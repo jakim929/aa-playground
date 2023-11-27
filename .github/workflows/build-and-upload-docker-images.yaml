@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   backend:
@@ -27,13 +27,24 @@ jobs:
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       
-      - name: Build and push image
+      - name: Build and push skandha image
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile
+          file: ./bundlers/skandha/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_USERNAME }}/aa-playground:skandha-${{ github.sha }}
             ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_USERNAME }}/aa-playground:skandha-latest
+
+      - name: Build and push transeptor-bundler image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./bundlers/transeptor-bundler/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_USERNAME }}/aa-playground:transeptor-bundler-${{ github.sha }}
+            ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_USERNAME }}/aa-playground:transeptor-bundler-latest
