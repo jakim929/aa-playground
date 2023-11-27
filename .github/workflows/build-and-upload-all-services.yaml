@@ -1,0 +1,19 @@
+name: Build and upload docker images for all services
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-upload-skandha:
+    uses: ./.github/workflows/reusable/build-and-upload-bundler-service.yml
+    secrets: inherit
+    with:
+      bundler-name: skandha
+  build-and-upload-transeptor-bundler:
+    uses: ./.github/workflows/reusable/build-and-upload-bundler-service.yml
+    secrets: inherit
+    with:
+      bundler-name: transeptor-bundler
