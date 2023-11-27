@@ -32,7 +32,7 @@ jobs:
       - name: Build and push skandha image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./bundlers/skandha
           file: ./bundlers/skandha/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
@@ -43,7 +43,7 @@ jobs:
       - name: Build and push transeptor-bundler image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./bundlers/transeptor-bundler
           file: ./bundlers/transeptor-bundler/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
