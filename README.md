@@ -20,7 +20,7 @@ This will:
 3. 📡 Launch the following bundler services against anvil node
     - [skandha](https://github.com/etherspot/skandha) (TypeScript, by [etherspot.io](https://etherspot.io/))
     - [transeptor-bundler](https://github.com/transeptorlabs/transeptor-bundler) (TypesScript, by [Transeptor Labs](https://transeptorlabs.io/))
-    -  [rundler](https://github.com/alchemyplatform/rundler) (Rust, by [Alchemy](https://www.alchemy.com/)) [COMING SOON 🔜]
+    - **[COMING SOON 🔜]** [rundler](https://github.com/alchemyplatform/rundler) (Rust, by [Alchemy](https://www.alchemy.com/)) 
         - Note: Rundler doesn't support unsafe mode yet, avoid using until this [issue](https://github.com/alchemyplatform/rundler/issues/470) is closed
 4. 🌍 Set up a nginx reverse proxy at http://0.0.0.0:3010 with the following services:
 
