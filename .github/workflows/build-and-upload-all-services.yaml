@@ -7,18 +7,18 @@ on:
       - main
 
 jobs:
-  build-and-upload-skandha:
+  skandha:
     uses: ./.github/workflows/build-and-upload-bundler-service.yaml
     secrets: inherit
     with:
       bundler-name: skandha
-  build-and-upload-transeptor-bundler:
+  transeptor-bundler:
     uses: ./.github/workflows/build-and-upload-bundler-service.yaml
     secrets: inherit
     with:
       bundler-name: transeptor-bundler
-  build-and-upload:
-    name: Build and publish images
+  local-services:
+    name: Build and publish images for bundler-reverse-proxy and anvil-setup
     runs-on: ubuntu-latest
     environment: dockerhub
     steps:
@@ -49,7 +49,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_USERNAME }}/aa-playground:anvil-setup-${{ github.sha }}
             ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_USERNAME }}/aa-playground:anvil-setup-latest
-
 
       - name: Build and push bundler-reverse-proxy
         uses: docker/build-push-action@v4
