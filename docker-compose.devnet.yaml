@@ -1,8 +1,8 @@
 version: '3.4'
 services:
   anvil:
-    restart: unless-stopped
     image: ghcr.io/foundry-rs/foundry
+    restart: unless-stopped
     container_name: anvil
     environment:
       - ANVIL_IP_ADDR=0.0.0.0
@@ -15,10 +15,7 @@ services:
       timeout: 2s
 
   anvil-setup: 
-    build: 
-      context: .
-      dockerfile: Dockerfile
-      target: anvil-setup
+    image: jakim929/aa-playground:anvil-setup-latest
     container_name: anvil-setup
     environment: 
       - RPC_URL=http://anvil:8545
@@ -30,10 +27,7 @@ services:
     restart: "no"
 
   bundler-reverse-proxy-nginx:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-      target: bundler-reverse-proxy
+    image: jakim929/aa-playground:bundler-reverse-proxy-latest
     container_name: bundler-reverse-proxy
     ports:
       - "3010:80"
@@ -46,9 +40,7 @@ services:
         condition: service_healthy
 
   skandha-bundler:
-    build: 
-      context: ./bundlers/skandha
-      dockerfile: ./Dockerfile
+    image: jakim929/aa-playground:skandha-latest
     container_name: skandha-bundler
     entrypoint: ["sh", "-c", "echo '{\"networks\":{\"dev\":{\"entryPoints\":[\"$ENTRYPOINT_CONTRACT_ADDRESS\"],\"relayer\":\"$BUNDLER_EOA_PRIVATE_KEY\",\"beneficiary\":\"$BUNDLER_EOA_ADDRESS\",\"rpcEndpoint\":\"http://anvil:8545\",\"minInclusionDenominator\":10,\"throttlingSlack\":10,\"banSlack\":10}}}' > /usr/app/config.json && node ./packages/cli/bin/skandha standalone"]
     healthcheck:
@@ -63,9 +55,7 @@ services:
         condition: service_completed_successfully
 
   transeptor-bundler: 
-    build: 
-      context: ./bundlers/transeptor-bundler
-      dockerfile: ./Dockerfile
+    image: jakim929/aa-playground:transeptor-bundler-latest
     container_name: transeptor-bundler
     environment:
       - MNEMONIC=$BUNDLER_EOA_MNEMONIC

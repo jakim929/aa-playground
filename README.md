@@ -5,8 +5,12 @@ Runs off-chain services on a local anvil chain to help test 4337 functionality.
 ## 🖥️  Running locally
 
 ### Running the devnet
+#### 1. copy [`docker-compose.devnet.yaml`](https://github.com/jakim929/aa-playground/blob/main/docker-compose.devnet.yaml)  and [`.env.devnet`](https://github.com/jakim929/aa-playground/blob/main/.env.devnet) to your repo
+
+#### 2. Run services
+
 ```sh
-docker compose --env-file ./.env.devnet up
+docker compose -f docker-compose.devnet.yaml --env-file ./.env.devnet up
 ```
 
 This will:
@@ -16,7 +20,7 @@ This will:
 3. 📡 Launch the following bundler services against anvil node
     - [skandha](https://github.com/etherspot/skandha) (TypeScript, by [etherspot.io](https://etherspot.io/))
     - [transeptor-bundler](https://github.com/transeptorlabs/transeptor-bundler) (TypesScript, by [Transeptor Labs](https://transeptorlabs.io/))
-    - [rundler](https://github.com/alchemyplatform/rundler) (Rust, by [Alchemy](https://www.alchemy.com/))
+    -  [rundler](https://github.com/alchemyplatform/rundler) (Rust, by [Alchemy](https://www.alchemy.com/)) [COMING SOON 🔜]
         - Note: Rundler doesn't support unsafe mode yet, avoid using until this [issue](https://github.com/alchemyplatform/rundler/issues/470) is closed
 4. 🌍 Set up a nginx reverse proxy at http://0.0.0.0:3010 with the following services:
 
@@ -27,7 +31,6 @@ This will:
 | Anvil RPC (chainId: 31337) | `http://0.0.0.0:8545` | `http://0.0.0.0:3010/anvil-rpc` |
 | Skandha Bundler RPC | - | `http://0.0.0.0:3010/skandha-bundler-rpc` |
 | Transeptor Bundler RPC | - | `http://0.0.0.0:3010/transeptor-bundler-rpc` |
-| Rundler Bundler RPC | - | `http://0.0.0.0:3010/rundler-bundler-rpc` |
 
 ## 📝 Basic Contract Deployments
 | Contract | Address |
@@ -57,3 +60,22 @@ Made by [zerodev](https://zerodev.app/), Kernel is a modular smart account, and 
 | [Kernel ECDSAValidator](https://github.com/zerodevapp/kernel/blob/main/src/validator/ECDSAValidator.sol) | `0x5A24eDA104aFb5d9181C57f7F46651ceBC5DdC7D` |
 
 
+
+## 🔨 Developing locally / building from scratch
+
+#### 1. Clone the repo
+```sh
+git clone --recurse-submodules https://github.com/jakim929/aa-playground.git
+cd aa-playground
+```
+
+#### 2. Run services
+```sh
+docker compose --env-file ./.env.devnet up
+```
+
+or to use pre-built images on docker-hub
+
+```sh
+docker compose -f docker-compose.devnet.yaml --env-file ./.env.devnet up
+```
