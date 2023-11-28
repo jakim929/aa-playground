@@ -53,7 +53,7 @@ services:
     entrypoint: ["sh", "-c", "echo '{\"networks\":{\"dev\":{\"entryPoints\":[\"$ENTRYPOINT_CONTRACT_ADDRESS\"],\"relayer\":\"$BUNDLER_EOA_PRIVATE_KEY\",\"beneficiary\":\"$BUNDLER_EOA_ADDRESS\",\"rpcEndpoint\":\"http://anvil:8545\",\"minInclusionDenominator\":10,\"throttlingSlack\":10,\"banSlack\":10}}}' > /usr/app/config.json && node ./packages/cli/bin/skandha standalone"]
     healthcheck:
       test: >
-        wget --header='Content-Type: application/json'  --no-verbose --tries=1 --output-document=- --spider --post-data='{"jsonrpc":"2.0","id":"1","method":"test","params":[]}' http://localhost:14337/$CHAIN_ID || exit 1
+        wget --header='Content-Type: application/json'  --no-verbose --tries=1 --output-document=- --spider --post-data='{"jsonrpc":"2.0","id":"1","method":"eth_chainId","params":[]}' http://localhost:14337/$CHAIN_ID || exit 1
       interval: 3s
       timeout: 3s
       retries: 3
@@ -80,7 +80,7 @@ services:
       --unsafe
     healthcheck:
       test: >
-        wget --header='Content-Type: application/json' --no-verbose --tries=1 --output-document=- --spider --post-data='{"jsonrpc":"2.0","id":"1","method":"test","params":[]}' http://localhost:4000/rpc || exit 1
+        wget --header='Content-Type: application/json' --no-verbose --tries=1 --output-document=- --spider --post-data='{"jsonrpc":"2.0","id":"1","method":"eth_chainId","params":[]}' http://localhost:4000/rpc || exit 1
       interval: 3s
       timeout: 3s
       retries: 3

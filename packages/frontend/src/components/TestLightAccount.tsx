@@ -3,6 +3,7 @@ import { TestNFTAbi } from '@/constants/TestNFTAbi'
 import { LightSmartContractAccount } from '@alchemy/aa-accounts'
 import {
   LocalAccountSigner,
+  PublicErc4337Client,
   SmartAccountProvider,
   createPublicErc4337Client,
   createPublicErc4337FromClient,
@@ -12,6 +13,9 @@ import {
 import { useEffect, useState } from 'react'
 import {
   Address,
+  Chain,
+  Transport,
+  PublicClient,
   RpcRequestError,
   createPublicClient,
   createWalletClient,
@@ -75,21 +79,6 @@ const publicAndErc4337Transport = custom({
       return result
     }
 
-    // // testing make it work with transeptor bundler
-    // if (method === 'eth_estimateUserOperationGas') {
-    //   const result = await erc4337PublicClient
-    //     .request({ method, params })
-    //     .catch((e) => {
-    //       throw new RpcRequestError({
-    //         body,
-    //         error: e as any,
-    //         url: erc4337PublicClient.transport.url!,
-    //       })
-    //     })
-    //   return result
-    // }
-    console.log(method, params)
-
     const result = await erc4337PublicClient
       .request({ method, params })
       .catch((e) => {
@@ -103,10 +92,40 @@ const publicAndErc4337Transport = custom({
   },
 })
 
+const createPublicAndErc4337Transport = ({
+  publicClient,
+  erc4337Client,
+}: {
+  publicClient: PublicClient<Transport, Chain>
+  erc4337Client: PublicErc4337Client<Transport>
+}) => {
+  return custom({
+    async request(body) {
+      const { method, params } = body
+
+      const client = erc4337Methods.includes(method)
+        ? erc4337Client
+        : publicClient
+
+      const result = await client.request({ method, params }).catch((e) => {
+        throw new RpcRequestError({
+          body,
+          error: e as any,
+          url: publicClient.transport.url!,
+        })
+      })
+      return result
+    },
+  })
+}
+
 const publicAndErc4337Client = createPublicErc4337FromClient(
   createPublicClient({
     chain: foundry,
-    transport: publicAndErc4337Transport,
+    transport: createPublicAndErc4337Transport({
+      publicClient,
+      erc4337Client: erc4337PublicClient,
+    }),
   }),
 )
 

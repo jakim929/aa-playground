@@ -15,7 +15,7 @@ docker compose -f docker-compose.devnet.yaml --env-file ./.env.devnet up
 
 This will:
 
-1. 🚀 Start anvil instance at http://0.0.0.0:8545, `chainId = 31337`
+1. ⛓️ Start anvil instance at http://0.0.0.0:8545, `chainId = 31337`
 2. 🛠 Deploy required contracts
 3. 📡 Launch the following bundler services against anvil node
     - [skandha](https://github.com/etherspot/skandha) (TypeScript, by [etherspot.io](https://etherspot.io/))
